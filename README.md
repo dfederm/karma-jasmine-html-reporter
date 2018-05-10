@@ -14,17 +14,7 @@ You can also run a describe block, or a single test.
 
 ## Installation
 
-The easiest way is to keep `karma-jasmine-html-reporter` as a devDependency in your `package.json`.
-```json
-{
-  "devDependencies": {
-    "karma": "~0.10",
-    "karma-jasmine-html-reporter": "~0.1"
-  }
-}
-```
-
-You can simply do it by:
+You can simply install `karma-jasmine-html-reporter` as a devDependency by:
 ```bash
 npm install karma-jasmine-html-reporter --save-dev
 ```
@@ -34,9 +24,7 @@ npm install karma-jasmine-html-reporter --save-dev
 // karma.conf.js
 module.exports = function(config) {
   config.set({
-
     reporters: ['kjhtml']
-
   });
 };
 ```
@@ -50,6 +38,6 @@ karma start --reporters kjhtml
 
 There's not much to this package.
 
-`adapter.js` and `html.jasmine.reporter.js` are copied with small adjustments from `jasmine/lib/jasmine-core/boot.js` and `jasmine/lib/jasmine-core/jasmine-html.js` respectively.
+[`adapter.js`](src/lib/adapter.js), [`html.jasmine.reporter.js`](src/lib/html.jasmine.reporter.js), and [`jasmine.css`](src/css/jasmine.css) are copied with small adjustments from [`jasmine/lib/jasmine-core/boot.js`](https://github.com/jasmine/jasmine/blob/master/lib/jasmine-core/boot.js) and [`jasmine/lib/jasmine-core/jasmine-html.js`](https://github.com/jasmine/jasmine/blob/master/lib/jasmine-core/jasmine-html.js), and [`jasmine/lib/jasmine-core/jasmine.css`](https://github.com/jasmine/jasmine/blob/master/lib/jasmine-core/jasmine.css) respectively.
 
-Just pull over changes from Jasmine as needed.
+Just pull over changes from Jasmine as needed. There is a script to help with that; just run `npm run build` and review the changes. Specifically, [`adapter.js`](src/lib/adapter.js) needs a lot of manual removals.

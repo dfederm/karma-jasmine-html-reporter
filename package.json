@@ -1,6 +1,6 @@
 {
   "name": "karma-jasmine-html-reporter",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A Karma plugin. Dynamically displays tests results at debug.html page",
   "main": "./src/index.js",
   "keywords": [
@@ -8,6 +8,9 @@
     "karma-reporter",
     "html"
   ],
+  "scripts": {
+    "build": "node build/build.js"
+  },
   "repository": {
     "url": "https://github.com/dfederm/karma-jasmine-html-reporter"
   },
@@ -30,14 +33,15 @@
       "url": "https://github.com/protazy"
     }
   ],
-  "dependencies": {
-    "karma-jasmine": "^1.1.1"
-  },
   "peerDependencies": {
     "karma": ">=0.9",
-    "jasmine": "^3.0.0"
+    "karma-jasmine": ">=1.1",
+    "jasmine": ">=3"
   },
   "license": "MIT",
-  "devDependencies": {},
+  "devDependencies": {
+    "chalk": "*",
+    "jasmine-core": ">=3"
+  },
   "readmeFilename": "README.md"
 }

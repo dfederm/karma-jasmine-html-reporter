@@ -1,14 +1,14 @@
 var JASMINE_CORE_PATTERN = /([\\/]karma-jasmine[\\/])/i;
-var createPattern = function(path) {
-  return {pattern: path, included: true, served: true, watched: false};
+var createPattern = function (path) {
+  return { pattern: path, included: true, served: true, watched: false };
 };
 
-var initReporter = function(files,  baseReporterDecorator) {
+var initReporter = function (files, baseReporterDecorator) {
   var jasmineCoreIndex = 0;
 
   baseReporterDecorator(this);
 
-  files.forEach(function(file, index) {
+  files.forEach(function (file, index) {
     if (JASMINE_CORE_PATTERN.test(file.pattern)) {
       jasmineCoreIndex = index;
     }
@@ -19,7 +19,7 @@ var initReporter = function(files,  baseReporterDecorator) {
   files.splice(++jasmineCoreIndex, 0, createPattern(__dirname + '/lib/adapter.js'));
 };
 
-initReporter.$inject = ['config.files',  'baseReporterDecorator'];
+initReporter.$inject = ['config.files', 'baseReporterDecorator'];
 
 module.exports = {
   'reporter:kjhtml': ['type', initReporter]
