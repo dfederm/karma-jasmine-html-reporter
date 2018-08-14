@@ -1,4 +1,4 @@
-(function(window){
+(function (window) {
 
   /**
    * Since this is being run in a browser and the results should populate to an HTML page, require the HTML-specific Jasmine code, injecting the same reference.
@@ -17,7 +17,7 @@
    */
 
   var queryString = new jasmine.QueryString({
-    getWindowLocation: function() { return window.location; }
+    getWindowLocation: function () { return window.location; }
   });
 
   var filterSpecs = !!queryString.getParam("spec");
@@ -27,6 +27,9 @@
 
   var throwingExpectationFailures = queryString.getParam("throwFailures");
   env.throwOnExpectationFailure(throwingExpectationFailures);
+
+  var hideDisabled = queryString.getParam("hideDisabled");
+  env.hideDisabled(hideDisabled);
 
   var random = queryString.getParam("random");
 
@@ -45,11 +48,11 @@
    */
   var htmlReporter = new jasmine.HtmlReporter({
     env: env,
-    navigateWithNewParam: function(key, value) { return queryString.navigateWithNewParam(key, value); },
-    addToExistingQueryString: function(key, value) { return queryString.fullStringWithNewParam(key, value); },
-    getContainer: function() { return document.body; },
-    createElement: function() { return document.createElement.apply(document, arguments); },
-    createTextNode: function() { return document.createTextNode.apply(document, arguments); },
+    navigateWithNewParam: function (key, value) { return queryString.navigateWithNewParam(key, value); },
+    addToExistingQueryString: function (key, value) { return queryString.fullStringWithNewParam(key, value); },
+    getContainer: function () { return document.body; },
+    createElement: function () { return document.createElement.apply(document, arguments); },
+    createTextNode: function () { return document.createTextNode.apply(document, arguments); },
     timer: new jasmine.Timer(),
     filterSpecs: filterSpecs
   });
@@ -64,10 +67,10 @@
    * Filter which specs will be run by matching the start of the full name against the `spec` query param.
    */
   var specFilter = new jasmine.HtmlSpecFilter({
-    filterString: function() { return queryString.getParam("spec"); }
+    filterString: function () { return queryString.getParam("spec"); }
   });
 
-  env.specFilter = function(spec) {
+  env.specFilter = function (spec) {
     return specFilter.matches(spec.getFullName());
   };
 
