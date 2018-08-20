@@ -37,16 +37,15 @@
       "url": "https://github.com/footballencarta"
     }
   ],
-  "dependencies": {
-    "jasmine-core": ">=3.2"
-  },
   "peerDependencies": {
     "karma": ">=0.9",
-    "karma-jasmine": ">=1.1"
+    "karma-jasmine": ">=1.1",
+    "jasmine-core": ">=3.2"
   },
   "license": "MIT",
   "devDependencies": {
-    "chalk": "*"
+    "chalk": "*",
+    "jasmine-core": ">=3.2"
   },
   "readmeFilename": "README.md"
 }
