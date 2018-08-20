@@ -33,15 +33,16 @@
       "url": "https://github.com/protazy"
     }
   ],
+  "dependencies": {
+    "jasmine-core": ">=3.2"
+  },
   "peerDependencies": {
     "karma": ">=0.9",
-    "karma-jasmine": ">=1.1",
-    "jasmine-core": ">=3"
+    "karma-jasmine": ">=1.1"
   },
   "license": "MIT",
   "devDependencies": {
-    "chalk": "*",
-    "jasmine-core": ">=3"
+    "chalk": "*"
   },
   "readmeFilename": "README.md"
 }
