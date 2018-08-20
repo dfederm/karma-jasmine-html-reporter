@@ -1,6 +1,6 @@
 {
   "name": "karma-jasmine-html-reporter",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "A Karma plugin. Dynamically displays tests results at debug.html page",
   "main": "./src/index.js",
   "keywords": [
@@ -31,17 +31,21 @@
     {
       "name": "protazy",
       "url": "https://github.com/protazy"
+    },
+    {
+      "name": "footballencarta",
+      "url": "https://github.com/footballencarta"
     }
   ],
   "peerDependencies": {
     "karma": ">=0.9",
     "karma-jasmine": ">=1.1",
-    "jasmine-core": ">=3"
+    "jasmine-core": ">=3.2"
   },
   "license": "MIT",
   "devDependencies": {
     "chalk": "*",
-    "jasmine-core": ">=3"
+    "jasmine-core": ">=3.2"
   },
   "readmeFilename": "README.md"
 }
