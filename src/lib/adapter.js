@@ -22,24 +22,21 @@
 
   var filterSpecs = !!queryString.getParam("spec");
 
-  var stoppingOnSpecFailure = queryString.getParam("failFast");
-  env.stopOnSpecFailure(stoppingOnSpecFailure);
-
-  var throwingExpectationFailures = queryString.getParam("throwFailures");
-  env.throwOnExpectationFailure(throwingExpectationFailures);
-
-  var hideDisabled = queryString.getParam("hideDisabled");
-  env.hideDisabled(hideDisabled);
+  var config = {
+    failFast: queryString.getParam("failFast"),
+    oneFailurePerSpec: queryString.getParam("oneFailurePerSpec"),
+    hideDisabled: queryString.getParam("hideDisabled")
+  };
 
   var random = queryString.getParam("random");
 
   if (random !== undefined && random !== "") {
-    env.randomizeTests(random);
+    config.random = random;
   }
 
   var seed = queryString.getParam("seed");
   if (seed) {
-    env.seed(seed);
+    config.seed = seed;
   }
 
   /**
@@ -70,9 +67,11 @@
     filterString: function () { return queryString.getParam("spec"); }
   });
 
-  env.specFilter = function (spec) {
+  config.specFilter = function (spec) {
     return specFilter.matches(spec.getFullName());
   };
+
+  env.configure(config);
 
   htmlReporter.initialize();
 
