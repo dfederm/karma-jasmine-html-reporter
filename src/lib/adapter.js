@@ -63,13 +63,16 @@
   /**
    * Filter which specs will be run by matching the start of the full name against the `spec` query param.
    */
-  var specFilter = new jasmine.HtmlSpecFilter({
-    filterString: function () { return queryString.getParam("spec"); }
-  });
+  var specFilter;
+  if (!config.specFilter || queryString.getParam("spec")) {
+    specFilter = new jasmine.HtmlSpecFilter({
+      filterString: function () { return queryString.getParam("spec"); }
+    });
 
-  config.specFilter = function (spec) {
-    return specFilter.matches(spec.getFullName());
-  };
+    config.specFilter = function (spec) {
+      return specFilter.matches(spec.getFullName());
+    };
+  }
 
   env.configure(config);
 
