@@ -257,10 +257,10 @@ jasmineRequire.HtmlReporter = function (j$) {
         alert.appendChild(
           createDom('span', { className: 'jasmine-menu jasmine-bar jasmine-spec-list' },
             createDom('span', {}, 'Spec List | '),
-            createDom('a', { className: 'jasmine-failures-menu', href: '#' }, 'Failures')));
+            createDom('a', { className: 'jasmine-failures-menu' }, 'Failures')));
         alert.appendChild(
           createDom('span', { className: 'jasmine-menu jasmine-bar jasmine-failure-list' },
-            createDom('a', { className: 'jasmine-spec-list-menu', href: '#' }, 'Spec List'),
+            createDom('a', { className: 'jasmine-spec-list-menu' }, 'Spec List'),
             createDom('span', {}, ' | Failures ')));
 
         find('.jasmine-failures-menu').onclick = function () {
