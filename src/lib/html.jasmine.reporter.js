@@ -145,6 +145,10 @@ jasmineRequire.HtmlReporter = function (j$) {
 
       if (!symbols) {
         symbols = find('.jasmine-symbol-summary');
+        if (!symbols) {
+          // DOM may have been modified by the test.
+          return;
+        }
       }
 
       symbols.appendChild(createDom('li', {
@@ -175,6 +179,10 @@ jasmineRequire.HtmlReporter = function (j$) {
     this.jasmineDone = function (doneResult) {
       var banner = find('.jasmine-banner');
       var alert = find('.jasmine-alert');
+      if (!banner || !alert) {
+        console.warn('Cannot report final jasmine results to browser, DOM was overwritten');
+        return this;
+      }
       var order = doneResult && doneResult.order;
       var i;
       alert.appendChild(createDom('span', { className: 'jasmine-duration' }, 'finished in ' + timer.elapsed() / 1000 + 's'));
