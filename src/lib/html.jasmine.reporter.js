@@ -92,11 +92,35 @@ jasmineRequire.HtmlReporter = function (j$) {
       symbols,
       deprecationWarnings = [];
 
+      // This is a no-op if not running with a Trusted Types CSP policy, and
+      // lets tests declare that they trust the way that the
+      // karma-jasmine-html-reporter system creates URLs.
+      //
+      // More info about the proposed Trusted Types standard at
+      // https://github.com/WICG/trusted-types
+      var policy = {
+          createURL: function(s) {
+          return s;
+        }
+      };
+      var trustedTypes = window.trustedTypes || window.TrustedTypes;
+      if (trustedTypes) {
+        policy = trustedTypes.createPolicy('karma-jasmine-html-reporter', policy);
+        if (!policy.createURL) {
+          // Install createURL for newer browsers. Only browsers that
+          //     implement an old version of the spec require createURL.
+          //     Should be safe to delete this policy entirely by
+          //     February 2020.
+          // https://github.com/WICG/trusted-types/pull/204
+          policy.createURL = function(s) { return s };
+        }
+      }
+
     this.initialize = function () {
       clearPrior();
       htmlReporterMain = createDom('div', { className: 'jasmine_html-reporter' },
         createDom('div', { className: 'jasmine-banner' },
-          createDom('a', { className: 'jasmine-title', href: 'http://jasmine.github.io/', target: '_blank' }),
+          createDom('a', { className: 'jasmine-title', href: policy.createURL('http://jasmine.github.io/'), target: '_blank' }),
           createDom('span', { className: 'jasmine-version' }, j$.version)
         ),
         createDom('ul', { className: 'jasmine-symbol-summary' }),
@@ -186,7 +210,7 @@ jasmineRequire.HtmlReporter = function (j$) {
         var skippedLink = addToExistingQueryString('spec', '');
         alert.appendChild(
           createDom('span', { className: 'jasmine-bar jasmine-skipped' },
-            createDom('a', { href: skippedLink, title: 'Run all specs' }, skippedMessage)
+            createDom('a', { href: policy.createURL(skippedLink), title: 'Run all specs' }, skippedMessage)
           )
         );
       }
@@ -213,7 +237,7 @@ jasmineRequire.HtmlReporter = function (j$) {
       if (order && order.random) {
         seedBar = createDom('span', { className: 'jasmine-seed-bar' },
           ', randomized with seed ',
-          createDom('a', { title: 'randomized with seed ' + order.seed, href: seedHref(order.seed) }, order.seed)
+          createDom('a', { title: 'randomized with seed ' + order.seed, href: policy.createURL(seedHref(order.seed)) }, order.seed)
         );
       }
 
@@ -257,10 +281,10 @@ jasmineRequire.HtmlReporter = function (j$) {
         alert.appendChild(
           createDom('span', { className: 'jasmine-menu jasmine-bar jasmine-spec-list' },
             createDom('span', {}, 'Spec List | '),
-            createDom('a', { className: 'jasmine-failures-menu', href: '#' }, 'Failures')));
+            createDom('a', { className: 'jasmine-failures-menu', href: policy.createURL('#') }, 'Failures')));
         alert.appendChild(
           createDom('span', { className: 'jasmine-menu jasmine-bar jasmine-failure-list' },
-            createDom('a', { className: 'jasmine-spec-list-menu', href: '#' }, 'Spec List'),
+            createDom('a', { className: 'jasmine-spec-list-menu', href: policy.createURL('#') }, 'Spec List'),
             createDom('span', {}, ' | Failures ')));
 
         find('.jasmine-failures-menu').onclick = function () {
@@ -308,7 +332,7 @@ jasmineRequire.HtmlReporter = function (j$) {
         if (resultNode.type === 'suite') {
           var suiteListNode = createDom('ul', { className: 'jasmine-suite', id: 'suite-' + resultNode.result.id },
             createDom('li', { className: 'jasmine-suite-detail jasmine-' + resultNode.result.status },
-              createDom('a', { href: specHref(resultNode.result) }, resultNode.result.description)
+              createDom('a', { href: policy.createURL(specHref(resultNode.result)) }, resultNode.result.description)
             )
           );
 
@@ -332,7 +356,7 @@ jasmineRequire.HtmlReporter = function (j$) {
               className: 'jasmine-' + resultNode.result.status,
               id: 'spec-' + resultNode.result.id
             },
-              createDom('a', { href: specHref(resultNode.result) }, specDescription)
+              createDom('a', { href: policy.createURL(specHref(resultNode.result)) }, specDescription)
             )
           );
         }
@@ -415,13 +439,13 @@ jasmineRequire.HtmlReporter = function (j$) {
 
     function failureDescription(result, suite) {
       var wrapper = createDom('div', { className: 'jasmine-description' },
-        createDom('a', { title: result.description, href: specHref(result) }, result.description)
+        createDom('a', { title: result.description, href: policy.createURL(specHref(result)) }, result.description)
       );
       var suiteLink;
 
       while (suite && suite.parent) {
         wrapper.insertBefore(createTextNode(' > '), wrapper.firstChild);
-        suiteLink = createDom('a', { href: suiteHref(suite) }, suite.result.description);
+        suiteLink = createDom('a', { href: policy.createURL(suiteHref(suite)) }, suite.result.description);
         wrapper.insertBefore(suiteLink, wrapper.firstChild);
 
         suite = suite.parent;
