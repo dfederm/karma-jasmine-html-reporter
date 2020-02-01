@@ -154,7 +154,7 @@ jasmineRequire.HtmlReporter = function (j$) {
         symbols = find('.jasmine-symbol-summary');
       }
 
-      symbols.appendChild(
+      symbols && symbols.appendChild(
         createDom('li', {
           className: this.displaySpecInCorrectFormat(result),
           id: 'spec_' + result.id,
