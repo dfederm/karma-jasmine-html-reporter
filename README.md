@@ -24,11 +24,24 @@ npm install karma-jasmine-html-reporter --save-dev
 // karma.conf.js
 module.exports = function(config) {
   config.set({
+    reporters: ['kjhtml']
+  });
+};
+```
+#### With options
+In combination with multiple reporters you may want to disable failed messages because it's already handled by another reporter.
 
-    reporters: ['kjhtml'],
+*Example when using the 'karma-mocha-reporter' plugin*:
+```js
+// karma.conf.js
+module.exports = function(config) {
+  config.set({
+
+    // Combine multiple reporters
+    reporters: ['kjhtml', 'mocha'],
 
     jasmineHtmlReporter: {
-      // Suppress failed messages (e.g. in combination with karma-mocha-reporter)
+      // Suppress failed messages
       suppressFailed: true
     }
 
