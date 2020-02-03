@@ -28,6 +28,26 @@ module.exports = function(config) {
   });
 };
 ```
+#### With options
+In combination with multiple reporters you may want to disable failed messages because it's already handled by another reporter.
+
+*Example when using the 'karma-mocha-reporter' plugin*:
+```js
+// karma.conf.js
+module.exports = function(config) {
+  config.set({
+
+    // Combine multiple reporters
+    reporters: ['kjhtml', 'mocha'],
+
+    jasmineHtmlReporter: {
+      // Suppress failed messages
+      suppressFailed: true
+    }
+
+  });
+};
+```
 
 You can pass a list of reporters as a CLI argument too:
 ```bash
