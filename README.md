@@ -24,7 +24,14 @@ npm install karma-jasmine-html-reporter --save-dev
 // karma.conf.js
 module.exports = function(config) {
   config.set({
-    reporters: ['kjhtml']
+
+    reporters: ['kjhtml'],
+
+    jasmineHtmlReporter: {
+      // Suppress failed messages (e.g. in combination with karma-mocha-reporter)
+      suppressFailed: true
+    }
+
   });
 };
 ```
