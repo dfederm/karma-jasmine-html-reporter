@@ -29,9 +29,9 @@ module.exports = function(config) {
 };
 ```
 #### With options
-In combination with multiple reporters you may want to disable failed messages because it's already handled by another reporter.
+In combination with multiple reporters you may want to disable terminal messages because it's already handled by another reporter.
 
-*Example when using the 'karma-mocha-reporter' plugin*:
+*Example using the 'karma-mocha-reporter' plugin*:
 ```js
 // karma.conf.js
 module.exports = function(config) {
@@ -41,8 +41,8 @@ module.exports = function(config) {
     reporters: ['kjhtml', 'mocha'],
 
     jasmineHtmlReporter: {
-      // Suppress failed messages
-      suppressFailed: true
+      suppressAll: true, // Suppress all messages (overrides other suppress settings)
+      suppressFailed: true // Suppress failed messages
     }
 
   });
