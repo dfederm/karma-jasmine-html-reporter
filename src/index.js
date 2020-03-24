@@ -12,6 +12,10 @@ var initReporter = function (karmaConfig, baseReporterDecorator) {
 
   if (karmaConfig.jasmineHtmlReporter) {
     const config = karmaConfig.jasmineHtmlReporter;
+    if (config.suppressAll) {
+      this.onSpecComplete = () => void 0;
+      this.onRunComplete = () => void 0;
+    }
     if (config.suppressFailed) {
       this.specFailure = () => void 0;
     }
