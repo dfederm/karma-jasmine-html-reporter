@@ -54,10 +54,6 @@
     filterSpecs: filterSpecs
   });
 
-  /**
-   * The `jsApiReporter` also receives spec results, and is used by any environment that needs to extract the results  from JavaScript.
-   */
-
   env.addReporter(htmlReporter);
 
   /**
