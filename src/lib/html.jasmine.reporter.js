@@ -791,7 +791,11 @@ jasmineRequire.QueryString = function () {
           encodeURIComponent(prop) + '=' + encodeURIComponent(paramMap[prop])
         );
       }
-      return '?' + qStrPairs.join('&');
+      var preffix = '';
+      if(window.location.pathname === '/debug.html') {
+        preffix = 'debug.html';
+      }
+      return preffix + '?' + qStrPairs.join('&');
     }
 
     function queryStringToParamMap() {
