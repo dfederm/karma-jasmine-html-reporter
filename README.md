@@ -58,6 +58,6 @@ karma start --reporters kjhtml
 
 There's not much to this package.
 
-[`adapter.js`](src/lib/adapter.js), [`html.jasmine.reporter.js`](src/lib/html.jasmine.reporter.js), and [`jasmine.css`](src/css/jasmine.css) are copied with small adjustments from [`jasmine/lib/jasmine-core/boot.js`](https://github.com/jasmine/jasmine/blob/master/lib/jasmine-core/boot.js) and [`jasmine/lib/jasmine-core/jasmine-html.js`](https://github.com/jasmine/jasmine/blob/master/lib/jasmine-core/jasmine-html.js), and [`jasmine/lib/jasmine-core/jasmine.css`](https://github.com/jasmine/jasmine/blob/master/lib/jasmine-core/jasmine.css) respectively.
+[`adapter.js`](src/lib/adapter.js), [`html.jasmine.reporter.js`](src/lib/html.jasmine.reporter.js), and [`jasmine.css`](src/css/jasmine.css) are copied with small adjustments from [`jasmine/lib/jasmine-core/boot.js`](https://github.com/jasmine/jasmine/blob/main/lib/jasmine-core/boot.js) and [`jasmine/lib/jasmine-core/jasmine-html.js`](https://github.com/jasmine/jasmine/blob/main/lib/jasmine-core/jasmine-html.js), and [`jasmine/lib/jasmine-core/jasmine.css`](https://github.com/jasmine/jasmine/blob/main/lib/jasmine-core/jasmine.css) respectively.
 
 Just pull over changes from Jasmine as needed. There is a script to help with that; just run `npm run build` and review the changes. Specifically, [`adapter.js`](src/lib/adapter.js) needs a lot of manual removals.
