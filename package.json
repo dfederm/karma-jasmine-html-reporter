@@ -1,6 +1,6 @@
 {
   "name": "karma-jasmine-html-reporter",
-  "version": "1.5.4",
+  "version": "1.6.0",
   "description": "A Karma plugin. Dynamically displays tests results at debug.html page",
   "main": "./src/index.js",
   "keywords": [
@@ -42,14 +42,14 @@
     }
   ],
   "peerDependencies": {
+    "jasmine-core": ">=3.7.1",
     "karma": ">=0.9",
-    "karma-jasmine": ">=1.1",
-    "jasmine-core": ">=3.5"
+    "karma-jasmine": ">=1.1"
   },
   "license": "MIT",
   "devDependencies": {
     "chalk": "*",
-    "jasmine-core": ">=3.5"
+    "jasmine-core": ">=3.7.1"
   },
   "readmeFilename": "README.md"
 }
