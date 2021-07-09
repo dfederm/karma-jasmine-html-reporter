@@ -8,9 +8,6 @@
     "karma-reporter",
     "html"
   ],
-  "scripts": {
-    "build": "node build/build.js"
-  },
   "repository": {
     "url": "https://github.com/dfederm/karma-jasmine-html-reporter"
   },
@@ -47,9 +44,5 @@
     "karma-jasmine": ">=1.1"
   },
   "license": "MIT",
-  "devDependencies": {
-    "chalk": "*",
-    "jasmine-core": ">=3.7.1"
-  },
   "readmeFilename": "README.md"
 }
