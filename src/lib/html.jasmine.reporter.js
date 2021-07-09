@@ -72,6 +72,41 @@ jasmineRequire.HtmlReporter = function (j$) {
     }
   };
 
+  function getSpecNumber(element) {
+    return parseInt(element.id.replace('spec_spec', ''))
+  }
+
+  function sortTestResultSymbols(parentElement) {
+    var children = Array.from(parentElement.childNodes)
+
+    children.forEach(child => {
+        parentElement.removeChild(child)
+    })
+
+    var sorted = children.sort(function (node1, node2) {
+        return getSpecNumber(node1) - getSpecNumber(node2)
+    })
+
+    sorted.forEach(function (child) {
+        parentElement.appendChild(child)
+    })
+  }
+
+  /**
+   * @param {*} stringId // e.g. spec2
+   * @return number
+   */
+  function getSpecNumber2(stringId) {
+    return parseInt(stringId.replace('spec', ''))
+  }
+
+  function sortFailureElements(elements) {
+    return elements.sort(function (node1, node2) {
+        return parseInt(node1.dataset.number) - parseInt(node2.dataset.number)
+    })
+  }
+
+
   function HtmlReporter(options) {
     var config = function () {
       return (options.env && options.env.configuration()) || {};
@@ -126,6 +161,21 @@ jasmineRequire.HtmlReporter = function (j$) {
       stateBuilder.suiteStarted(result);
     };
 
+    /**
+     *
+     * @param {*} result
+     * e.g.
+     * {
+     *  deprecationWarnings: []
+        description: "Shaka Engine"
+        duration: 6950
+        failedExpectations: []
+        fullName: "Shaka Engine"
+        id: "suite1"
+        properties: null
+        status: "passed"
+     * }
+     */
     this.suiteDone = function (result) {
       stateBuilder.suiteDone(result);
 
@@ -140,6 +190,24 @@ jasmineRequire.HtmlReporter = function (j$) {
     };
 
     var failures = [];
+
+    /**
+     *
+     * @param {*} result
+     * e.g.
+     * {
+     *  deprecationWarnings: []
+        description: "it is in `idle` state before playback started"
+        duration: 3
+        failedExpectations: []
+        fullName: "Shaka Engine goes through different states it is in `idle` state before playback started"
+        id: "spec3"
+        passedExpectations: [{…}]
+        pendingReason: ""
+        properties: null
+        status: "passed"
+     * }
+     */
     this.specDone = function (result) {
       stateBuilder.specDone(result);
 
@@ -163,6 +231,8 @@ jasmineRequire.HtmlReporter = function (j$) {
           title: result.fullName
         })
       );
+
+      symbols = sortTestResultSymbols(symbols)
 
       if (result.status === 'failed') {
         failures.push(failureDom(result));
@@ -375,6 +445,9 @@ jasmineRequire.HtmlReporter = function (j$) {
         setMenuModeTo('jasmine-failure-list');
 
         var failureNode = find('.jasmine-failures');
+
+        failures = sortFailureElements(failures)
+
         for (i = 0; i < failures.length; i++) {
           failureNode.appendChild(failures[i]);
         }
@@ -386,7 +459,10 @@ jasmineRequire.HtmlReporter = function (j$) {
     function failureDom(result) {
       var failure = createDom(
         'div',
-        { className: 'jasmine-spec-detail jasmine-failed' },
+        {
+            className: 'jasmine-spec-detail jasmine-failed',
+            'data-number': getSpecNumber2(result.id)
+        },
         failureDescription(result, stateBuilder.currentParent),
         createDom('div', { className: 'jasmine-messages' })
       );
