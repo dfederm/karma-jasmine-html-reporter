@@ -265,7 +265,7 @@ jasmineRequire.HtmlReporter = function (j$) {
               title: 'randomized with seed ' + order.seed,
               href: seedHref(order.seed)
             },
-            order.seed
+            String(order.seed)
           )
         );
       }
