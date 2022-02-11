@@ -6,6 +6,6 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
-    directory: "/WebClient"
+    directory: "/"
     schedule:
       interval: "daily"
