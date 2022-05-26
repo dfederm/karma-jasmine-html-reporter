@@ -4,8 +4,6 @@
 
 Reporter that dynamically shows tests results at debug.html page.
 
-Jasmine 1.3 is not supported. For Jasmine < 3.0.0, use version 0.2.2
-
 ![alt tag](/screenshots/reporter_1.png)
 
 You can also run a describe block, or a single test.
@@ -24,6 +22,19 @@ npm install karma-jasmine-html-reporter --save-dev
 // karma.conf.js
 module.exports = function(config) {
   config.set({
+    frameworks: ['jasmine'],
+    plugins: [
+        require('karma-jasmine'),
+        require('karma-jasmine-html-reporter')
+    ],
+    client: {
+        jasmine: {
+            // you can add configuration options for Jasmine here
+            // the possible options are listed at https://jasmine.github.io/api/edge/Configuration.html
+            // for example, you can disable the random execution with `random: false`
+            // or set a specific seed with `seed: 4321`
+        }
+    },
     reporters: ['kjhtml']
   });
 };
@@ -54,10 +65,10 @@ You can pass a list of reporters as a CLI argument too:
 karma start --reporters kjhtml
 ```
 
-## Develop
+## Version compatibility
 
-There's not much to this package.
-
-[`adapter.js`](src/lib/adapter.js), [`html.jasmine.reporter.js`](src/lib/html.jasmine.reporter.js), and [`jasmine.css`](src/css/jasmine.css) are copied with small adjustments from [`jasmine/lib/jasmine-core/boot.js`](https://github.com/jasmine/jasmine/blob/main/lib/jasmine-core/boot.js) and [`jasmine/lib/jasmine-core/jasmine-html.js`](https://github.com/jasmine/jasmine/blob/main/lib/jasmine-core/jasmine-html.js), and [`jasmine/lib/jasmine-core/jasmine.css`](https://github.com/jasmine/jasmine/blob/main/lib/jasmine-core/jasmine.css) respectively.
-
-Just pull over changes from Jasmine as needed. There is a script to help with that; just run `npm run build` and review the changes. Specifically, [`adapter.js`](src/lib/adapter.js) needs a lot of manual removals.
+jasmine Version | karma-jasmine-html-reporter version
+-|-
+2.x | 0.2.2
+3.x | 1.x
+4.x | 2.x
