@@ -42,7 +42,9 @@ var initReporter = function (karmaConfig, baseReporterDecorator) {
     files.splice(++jasmineCoreIndex, 0, createPattern(jasmineCore.files.path + '/' + file));
   });
 
-  files.splice(++jasmineCoreIndex, 0, createPattern(jasmineCore.files.bootDir + '/boot0.js'));
+  // Note: We don't use boot0.js from jasmine-core because karma-jasmine already initializes
+  // the jasmine object. boot0.js would create a new jasmine instance which conflicts with karma.
+  // Instead, our boot.js calls jasmineRequire.html(jasmine) directly to add HTML reporter classes.
   files.splice(++jasmineCoreIndex, 0, createPattern(__dirname + '/boot.js'));
 };
 

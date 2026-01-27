@@ -1,4 +1,5 @@
 .gitattributes
 .github/
+CONTRIBUTING.md
 screenshots/
 test/
