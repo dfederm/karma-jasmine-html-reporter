@@ -12,7 +12,7 @@
     "test": "karma start test/karma.conf.js"
   },
   "repository": {
-    "url": "https://github.com/dfederm/karma-jasmine-html-reporter"
+    "url": "git+https://github.com/dfederm/karma-jasmine-html-reporter.git"
   },
   "author": "David Federman <david.federman@outlook.com> (https://github.com/dfederm)",
   "peerDependencies": {
