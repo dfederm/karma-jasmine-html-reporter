@@ -1,15 +1,11 @@
 // This file sets up the HTML reporter for karma-jasmine-html-reporter.
-// It initializes the HTML reporter classes and configures the environment.
-// This file is heavily based on jasmine-core\lib\jasmine-core\boot1.js, both the v5 and v6 ones.
+// It is heavily based on jasmine-core's browser boot files.
 (function () {
     'use strict';
 
-    // Initialize HTML reporter classes on the jasmine object.
-    // This is normally done by boot0.js, but we can't use boot0.js because it
-    // creates a new jasmine instance which conflicts with karma-jasmine's setup.
+    // Jasmine 4-6 expose their HTML reporter classes through jasmineRequire.
+    // Jasmine 7's jasmine-html.js attaches them automatically.
     if (typeof jasmineRequire !== 'undefined' && jasmineRequire.html) {
-        // Ensure jasmine.private exists - older jasmine-core versions used by
-        // karma-jasmine may not have it, but jasmine-html.js from newer versions needs it.
         if (!jasmine.private) {
             jasmine.private = {};
         }
@@ -20,7 +16,6 @@
 
     // Jasmine 6+ uses HtmlReporterV2, Jasmine 4/5 uses HtmlReporter
     if (jasmine.HtmlReporterV2) {
-        // Jasmine 6+ path
         var urls = new jasmine.HtmlReporterV2Urls();
 
         // Don't use urls.configFromCurrentUrl() because it creates a specFilter
@@ -72,19 +67,21 @@
 
         var htmlReporter = new jasmine.HtmlReporterV2({ env: env, urls: urls });
 
-        // Monkey-patch jasmineStarted to handle missing/invalid data from karma-jasmine
-        var originalJasmineStarted = htmlReporter.jasmineStarted.bind(htmlReporter);
-        htmlReporter.jasmineStarted = function(options) {
-            // Ensure required properties exist and are valid numbers
-            options = options || {};
-            if (typeof options.totalSpecsDefined !== 'number' || !isFinite(options.totalSpecsDefined)) {
-                options.totalSpecsDefined = 0;
-            }
-            if (typeof options.numExcludedSpecs !== 'number' || !isFinite(options.numExcludedSpecs)) {
-                options.numExcludedSpecs = 0;
-            }
-            return originalJasmineStarted(options);
-        };
+        // Jasmine 6 can receive incomplete start data from karma-jasmine's
+        // older core. Jasmine 7 provides valid data and freezes reporters.
+        if (Object.isExtensible(htmlReporter)) {
+            var originalJasmineStarted = htmlReporter.jasmineStarted.bind(htmlReporter);
+            htmlReporter.jasmineStarted = function(options) {
+                options = options || {};
+                if (typeof options.totalSpecsDefined !== 'number' || !isFinite(options.totalSpecsDefined)) {
+                    options.totalSpecsDefined = 0;
+                }
+                if (typeof options.numExcludedSpecs !== 'number' || !isFinite(options.numExcludedSpecs)) {
+                    options.numExcludedSpecs = 0;
+                }
+                return originalJasmineStarted(options);
+            };
+        }
 
         env.addReporter(htmlReporter);
     } else {

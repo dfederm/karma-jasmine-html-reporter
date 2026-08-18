@@ -1,0 +1,29 @@
+name: Test
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        jasmine-core-spec:
+          - jasmine-core@4.6.1
+          - jasmine-core@5.7.1
+          - jasmine-core@6.3.0
+          - jasmine-core@7.0.1
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm install --no-save --no-package-lock "${{ matrix.jasmine-core-spec }}"
+      - run: npm test

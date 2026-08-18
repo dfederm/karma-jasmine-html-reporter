@@ -71,4 +71,10 @@ jasmine Version | karma-jasmine-html-reporter version
 -|-
 2.x | 0.2.2
 3.x | 1.x
-4.x - 6.x | 2.x
+4.x - 7.x | 2.x
+
+Jasmine 7 support replaces karma-jasmine's incompatible browser boot files
+while continuing to use its Karma adapter. Karma and karma-jasmine are both
+deprecated, so new projects should prefer a maintained browser test runner.
+The retained adapter reports Jasmine 7's `notApplicable` status as a success;
+use a maintained runner if you need full Jasmine 7 result semantics.

@@ -3,6 +3,7 @@ module.exports = function (config) {
         frameworks: ['jasmine'],
         plugins: [
             require('karma-jasmine'),
+            require('karma-chrome-launcher'),
             require('../src/index')
         ],
         client: {
@@ -16,7 +17,7 @@ module.exports = function (config) {
         },
         reporters: ['kjhtml'],
         files: [
-            "*.js"
+            "test.js"
         ]
     });
 };

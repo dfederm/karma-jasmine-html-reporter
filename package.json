@@ -9,14 +9,20 @@
     "html"
   ],
   "scripts": {
-    "test": "karma start test/karma.conf.js"
+    "test": "npm run test:unit && npm run test:browser",
+    "test:browser": "karma start test/karma.conf.js --single-run --browsers ChromeHeadless",
+    "test:unit": "node test/unit.js"
   },
   "repository": {
     "url": "git+https://github.com/dfederm/karma-jasmine-html-reporter.git"
   },
   "author": "David Federman <david.federman@outlook.com> (https://github.com/dfederm)",
+  "devDependencies": {
+    "jasmine-core": "7.0.1",
+    "karma-chrome-launcher": "^3.2.0"
+  },
   "peerDependencies": {
-    "jasmine-core": "^4.0.0 || ^5.0.0 || ^6.0.0",
+    "jasmine-core": "^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0",
     "karma": "^6.0.0",
     "karma-jasmine": "^5.0.0"
   },

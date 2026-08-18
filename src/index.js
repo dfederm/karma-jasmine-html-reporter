@@ -1,13 +1,44 @@
 var jasmineCore = require('jasmine-core');
 
-var JASMINE_CORE_PATTERN = /([\\/]karma-jasmine[\\/])/i;
+var JASMINE_CORE_FILE_PATTERN = /[\\/]jasmine-core[\\/]lib[\\/]jasmine-core[\\/]jasmine\.js$/i;
+var KARMA_JASMINE_BOOT_PATTERN = /[\\/]karma-jasmine[\\/]lib[\\/]boot\.js$/i;
+var KARMA_JASMINE_ADAPTER_PATTERN = /[\\/]karma-jasmine[\\/]lib[\\/]adapter\.js$/i;
 var createPattern = function (path) {
   return { pattern: path, included: true, served: true, watched: false };
 };
 
-var initReporter = function (karmaConfig, baseReporterDecorator) {
-  var jasmineCoreIndex = 0;
+var findFileIndex = function (files, pattern) {
+  return files.findIndex(function (file) {
+    return pattern.test(file.pattern);
+  });
+};
 
+var requireFileIndex = function (files, pattern, description) {
+  var index = findFileIndex(files, pattern);
+  if (index === -1) {
+    throw new Error('Could not find ' + description + ' in Karma files');
+  }
+
+  return index;
+};
+
+var insertReporterFiles = function (files, insertionIndex) {
+  jasmineCore.files.cssFiles.forEach(function (file) {
+    files.splice(++insertionIndex, 0, createPattern(jasmineCore.files.path + '/' + file));
+  });
+
+  jasmineCore.files.jsFiles.forEach(function (file) {
+    if (file === 'jasmine.js') {
+      return;
+    }
+
+    files.splice(++insertionIndex, 0, createPattern(jasmineCore.files.path + '/' + file));
+  });
+
+  files.splice(++insertionIndex, 0, createPattern(__dirname + '/boot.js'));
+};
+
+var initReporter = function (karmaConfig, baseReporterDecorator) {
   const files = karmaConfig.files;
 
   baseReporterDecorator(this);
@@ -23,29 +54,35 @@ var initReporter = function (karmaConfig, baseReporterDecorator) {
     }
   }
 
-  files.forEach(function (file, index) {
-    if (JASMINE_CORE_PATTERN.test(file.pattern)) {
-      jasmineCoreIndex = index;
-    }
-  });
+  var adapterIndex;
+  var jasmineMajorVersion = parseInt(jasmineCore.version().split('.')[0], 10);
 
-  jasmineCore.files.cssFiles.forEach(function (file) {
-    files.splice(++jasmineCoreIndex, 0, createPattern(jasmineCore.files.path + '/' + file));
-  });
+  if (jasmineMajorVersion >= 7) {
+    var coreIndex = requireFileIndex(
+      files,
+      JASMINE_CORE_FILE_PATTERN,
+      'the jasmine-core browser runtime'
+    );
+    files.splice(
+      coreIndex,
+      1,
+      createPattern(jasmineCore.files.path + '/jasmine.js')
+    );
 
-  jasmineCore.files.jsFiles.forEach(function (file) {
-    // Avoid jasmine.js as it's already included by karma-jasmine
-    if (file == "jasmine.js") {
-      return;
-    }
+    var bootIndex = requireFileIndex(
+      files,
+      KARMA_JASMINE_BOOT_PATTERN,
+      'karma-jasmine boot.js'
+    );
+    files.splice(bootIndex, 1);
+  }
 
-    files.splice(++jasmineCoreIndex, 0, createPattern(jasmineCore.files.path + '/' + file));
-  });
-
-  // Note: We don't use boot0.js from jasmine-core because karma-jasmine already initializes
-  // the jasmine object. boot0.js would create a new jasmine instance which conflicts with karma.
-  // Instead, our boot.js calls jasmineRequire.html(jasmine) directly to add HTML reporter classes.
-  files.splice(++jasmineCoreIndex, 0, createPattern(__dirname + '/boot.js'));
+  adapterIndex = requireFileIndex(
+    files,
+    KARMA_JASMINE_ADAPTER_PATTERN,
+    'karma-jasmine adapter.js'
+  );
+  insertReporterFiles(files, adapterIndex);
 };
 
 initReporter.$inject = ['config', 'baseReporterDecorator'];
