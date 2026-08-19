@@ -27,8 +27,5 @@
     "karma-jasmine": "^5.0.0"
   },
   "license": "MIT",
-  "readmeFilename": "README.md",
-  "overrides": {
-    "brace-expansion": "1.1.18"
-  }
+  "readmeFilename": "README.md"
 }
